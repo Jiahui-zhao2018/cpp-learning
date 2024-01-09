@@ -1,8 +1,9 @@
 # Compound Types
 
-A **compound type** is a type that is defined in terms of another type. In this chapter, we’ll cover two of them-*references* and *pointers*.
+A **compound type** is a type that is defined in terms of another type. In this chapter, we’ll cover two of them-_references_ and _pointers_.
 
 ## References
+
 A reference defines an alternative name for an object. We define a reference type by writing a declarator of the form
 `&d`, where `d` is the name being declared.
 
@@ -14,6 +15,7 @@ A reference defines an alternative name for an object. We define a reference typ
 When we define a reference, instead of copying the initializer's value, we bind the reference to its initializer. There is no way to rebind a reference to refer to a different object.
 
 ## Pointers
+
 A pointer is a compound type that points to another type. A pointer is an object in its own right. Pointers can be assigned and copied. A pointer need not to be initialzed at the time it is defined, and it will have undefined value if it is defined at block scope and not initialized.
 
 A pointer holds the address of another object. We get the address of an object by using the **address-of operator**.
@@ -23,7 +25,7 @@ A pointer holds the address of another object. We get the address of an object b
     int *p = &ival;
 ```
 
-When a pointer points to  an object, we can use the dereference operator to access the object.
+When a pointer points to an object, we can use the dereference operator to access the object.
 
 ```Cpp
     int ival = 1;
@@ -32,6 +34,7 @@ When a pointer points to  an object, we can use the dereference operator to acce
 ```
 
 ## Null Pointers
+
 A **null pointer** doesn't point to any object. There are several ways to obtain a null pointer:
 
 ```Cpp
@@ -40,7 +43,7 @@ A **null pointer** doesn't point to any object. There are several ways to obtain
     int *p3 = NULL;
 ```
 
-The most direct approach is to initialize the pointer using the literal **nullptr**. 
+The most direct approach is to initialize the pointer using the literal **nullptr**.
 
 ## Assignment and Pointers
 
@@ -62,4 +65,32 @@ Both pointers and references give indirect access to other objects. Once we have
     *pi = 0;
 ```
 
-##
+## Void Pointers
+
+The type **void\*** is a special pointer type that can hold the address of any object.
+
+We can compare a void pointer to another pointer, we can pass it to or return it from a function, and we can assign it to another void pointer. We cannot use a void pointer to operate on the object it addresses because we don't know that object's type, and the type determines what operations we can perform on the object.
+
+## Pointers to Pointers
+
+In general, there are no limits to how many type modifiers can be applied to a declarator.
+
+We indicate each pointer level by its own `*`.
+
+```cpp
+    int  ival = 1024;
+    int  *pi = &ival;
+    int* *ppi = &pi;
+```
+
+## References to Pointers
+
+A reference is not an object. Hence, we may not have a pointer to a reference. However, because a pointer is an object, we can define a reference to a pointer.
+
+## const Qualifier
+
+### Local to a File
+
+When a const object is initialized from a compile-time constant, the compiler will usually replace uses of the variable with its corresponding value during compilation.
+
+To substitute the value for the variable, the compiler has to see the variable’s initializer. When we split a program into multiple files, every file that uses the const must have access to its initializer. In order to see the initializer, the variable must be defined in every file that wants to use the variable’s value
