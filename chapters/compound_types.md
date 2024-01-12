@@ -93,4 +93,37 @@ A reference is not an object. Hence, we may not have a pointer to a reference. H
 
 When a const object is initialized from a compile-time constant, the compiler will usually replace uses of the variable with its corresponding value during compilation.
 
-To substitute the value for the variable, the compiler has to see the variable’s initializer. When we split a program into multiple files, every file that uses the const must have access to its initializer. In order to see the initializer, the variable must be defined in every file that wants to use the variable’s value
+To substitute the value for the variable, the compiler has to see the variable’s initializer. When we split a program into multiple files, every file that uses the const must have access to its initializer. In order to see the initializer, the variable must be defined in every file that wants to use the variable’s value.
+
+### Reference to const
+
+As with any other object, we can bind a reference to an object of a const type.
+To do so we use a **reference to const**.
+
+```c++
+    const int ci = 1024;
+    const int &r1 = ci; //ok: both reference and underlying object are const.
+    r1 = 42;            //error
+    int &r2 = ci        //error: nonconst reference to a const object.
+```
+
+There are two exceptions to the rule that the type of a reference must match the type of the object to which it refers.
+
+1. We can initialize a reference to const from any expression that can be converted to the type of the reference. In particular, we can bind a reference to const to a nonconst object, a literal, or a more general expression.
+   ```c++
+       int i = 42;
+       const int &r1 = i;          //ok: we can bind a const int& to a plain int object.
+       const int &r2 = 42;         //ok: r1 is a reference to const.
+       const int &r3 = r1 * 2;     //ok: r3 is a reference to const.
+       int &r4 = r1;               //error: : r4 is a plain, nonconst reference.
+   ```
+1. When we bind a reference to an object of a different type:
+   ```c++
+       double dval = 2.71;
+       const int &ri = dval;
+   ```
+   the compiler creates an unnamed(temporary) object and binds `ri` to it.
+   ```c++
+       const int temp = dval;
+       const int &ri = temp;
+   ```
