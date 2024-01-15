@@ -127,3 +127,19 @@ There are two exceptions to the rule that the type of a reference must match the
        const int temp = dval;
        const int &ri = temp;
    ```
+
+### const Pointers
+
+Pointers are objects, hence, as with any other object type, we can have a pointer that is itself const. A const pointer must be initialized, and once initialized, its value may not be changed.
+
+We indicate that the pointer is const by putting the const after the `*`. This placement indicates that it is the pointer, not the pointed-to type, that is const:
+
+```C++
+    int errNum = 0;
+    int * const curErr = &errNum;   // curErr will always point to errNum.
+    const double pi = 3.14;
+    const double * const pip = &pi; // pip is a const pointer to a const object.
+```
+
+The fact that a pointer is itself const says nothing about whether we can use
+the pointer to change the underlying object. Whether we can change that object depends entirely on the type to which the pointer points.
