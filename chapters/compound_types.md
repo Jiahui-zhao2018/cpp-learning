@@ -143,3 +143,22 @@ We indicate that the pointer is const by putting the const after the `*`. This p
 
 The fact that a pointer is itself const says nothing about whether we can use
 the pointer to change the underlying object. Whether we can change that object depends entirely on the type to which the pointer points.
+
+### Top-level Pointer
+
+We use the term **top-level const** to indicate that the pointer itself is a const. When a pointer can point to a const object, we refer to that const as a **low-level const**.
+
+More generally, top-level const indicates that an object itself is const. Top-level const can appear in any object type. Low-level const appears in the base type of compound types such as pointers or references.
+
+```Cpp
+    int i = 0;
+    int const *p1 = i; // we can't change the value of p1; const is top-level.
+    const int ci = 42; // we can't change the value of ci; const is top-level.
+    const int *p2 = &ci; // we can change the value of p2; const is low-level.
+    const int *const p3 = p2; // right-most const is top-level, left-most is not.
+    const int &r = ci; // const in reference is always low-level.
+```
+
+The distinction between top-level and low-level matters when we copy an object. When we copy an object, top-level consts are ignored.
+
+On the other hand, low-level const is never ignored. When we copy an object, both objects must have the same low-level const qualification or there must be a conversion between the types of the two objects.
